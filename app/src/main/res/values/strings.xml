@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">StoryKu</string>
+
+    <string name="signup">Daftar</string>
+    <string name="login">Masuk</string>
+    <string name="message_welcome_page">Mau upload pengalaman, cerita,
+        kesan dan kesan selama belajar di Dicoding?, dan melihat cerita siswa
+        lainnya? Di Dicoding story aja!</string>
+    <string name="title_welcome_page">Selamat datang di Dicoding Story</string>
+    <string name="title_signup_page">Lengkapi data dirimu di bawah ini ya</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="message_login_page">Masukkan dulu datamu ya</string>
+    <string name="title_login_page">Sudah siap untuk upgrade skill?</string>
+    <string name="name">Nama</string>
+    <string name="message_main_page">Selamat Belajar di Dicoding.</string>
+    <string name="greeting">Halo %1$s,</string>
+    <string name="logout">Keluar</string>
+    <string name="story_title">Title Story</string>
+    <string name="story_description">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        Aenean dignissim placerat lectus sed eleifend. Nunc dapibus, ex id ullamcorper rutrum,
+        dolor odio suscipit tortor, non.</string>
+    <string name="menu_logout">Keluar</string>
+    <string name="title_activity_maps">MapsActivity</string>
+    <string name="title_activity_story_maps">StoryMapsActivity</string>
+</resources>
