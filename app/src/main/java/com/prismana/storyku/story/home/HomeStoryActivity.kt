@@ -78,7 +78,6 @@ class HomeStoryActivity : AppCompatActivity() {
 
     }
 
-
     // to check if user status is logged in
     private fun checkUser() {
         userViewModel.getSession().observe(this@HomeStoryActivity) { user ->

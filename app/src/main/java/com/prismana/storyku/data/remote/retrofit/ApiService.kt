@@ -1,5 +1,6 @@
 package com.prismana.storyku.data.remote.retrofit
 
+import com.google.android.gms.common.internal.safeparcel.SafeParcelable.Param
 import com.prismana.storyku.data.remote.response.ErrorResponse
 import com.prismana.storyku.data.remote.response.LoginResponse
 import com.prismana.storyku.data.remote.response.RegisterResponse
@@ -35,7 +36,10 @@ interface ApiService {
 
     // fetch all story
     @GET("stories")
-    suspend fun getStories(): StoryResponse
+    suspend fun getStories(
+        @Query("page") page: Int = 1,
+        @Query("size") size: Int = 20
+    ): StoryResponse
 
     // POST story
     @Multipart

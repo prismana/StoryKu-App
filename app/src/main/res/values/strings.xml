@@ -18,8 +18,7 @@
     <string name="logout">Keluar</string>
     <string name="story_title">Title Story</string>
     <string name="story_description">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-        Aenean dignissim placerat lectus sed eleifend. Nunc dapibus, ex id ullamcorper rutrum,
-        dolor odio suscipit tortor, non.</string>
+        Aenean dignissim placerat lectus sed eleifend.</string>
     <string name="menu_logout">Keluar</string>
     <string name="title_activity_maps">MapsActivity</string>
     <string name="title_activity_story_maps">StoryMapsActivity</string>
