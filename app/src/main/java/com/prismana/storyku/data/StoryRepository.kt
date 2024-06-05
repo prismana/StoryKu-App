@@ -3,21 +3,15 @@ package com.prismana.storyku.data
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import com.google.gson.Gson
-import com.prismana.storyku.data.preferences.StoryPreferences
 import com.prismana.storyku.data.remote.response.ErrorResponse
-import com.prismana.storyku.data.remote.response.LoginResponse
-import com.prismana.storyku.data.remote.response.RegisterResponse
 import com.prismana.storyku.data.remote.response.StoryResponse
 import com.prismana.storyku.data.remote.retrofit.ApiService
-import kotlinx.coroutines.flow.Flow
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.HttpException
-import kotlin.concurrent.Volatile
 
 class StoryRepository(
-    private val apiService: ApiService,
-    private val storyPreferences: StoryPreferences
+    private val apiService: ApiService
 ) {
 
     fun getAllStory(): LiveData<Result<StoryResponse>> = liveData {
@@ -66,9 +60,8 @@ class StoryRepository(
     companion object {
         // writing this code will create new instance and update object inside
         fun getInstance(
-            apiService: ApiService,
-            storyPreferences: StoryPreferences
-        ): StoryRepository = StoryRepository(apiService, storyPreferences)
+            apiService: ApiService
+        ): StoryRepository = StoryRepository(apiService)
 
     }
 }
