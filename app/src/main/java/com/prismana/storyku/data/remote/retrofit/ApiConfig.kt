@@ -1,5 +1,6 @@
 package com.prismana.storyku.data.remote.retrofit
 
+import com.prismana.storyku.BuildConfig
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -7,6 +8,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object ApiConfig {
+    const val BASE_URL = BuildConfig.BASE_URL
 
     fun getApiService(token: String): ApiService {
 
@@ -28,7 +30,7 @@ object ApiConfig {
             .build()
 
         val retrofit = Retrofit.Builder()
-            .baseUrl("https://story-api.dicoding.dev/v1/")
+            .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .client(client)
             .build()
