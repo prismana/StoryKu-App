@@ -45,10 +45,11 @@ interface ApiService {
         @Part("description") description: RequestBody
     ): ErrorResponse
 
-    // for maps
+    // get all location for create marker in map
     @GET("stories")
     suspend fun getStoriesWithLocation(
         @Query("location") location : Int = 1,
     ): StoryResponse
+
 
 }
