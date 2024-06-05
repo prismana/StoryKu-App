@@ -18,7 +18,7 @@ object Injection {
         val user = runBlocking { preferences.getSession().first() }
         val apiService = ApiConfig.getApiService(user.token ?: "null")
 
-        return StoryRepository.getInstance(apiService, preferences)
+        return StoryRepository.getInstance(apiService)
     }
 
     // inject token to for user auth

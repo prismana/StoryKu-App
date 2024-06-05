@@ -62,14 +62,13 @@ class UserRepository(
     }
 
     companion object {
-        @Volatile
-        private var instance: UserRepository? = null
+
+        // writing this code will create new instance and update object inside
         fun getInstance(
             apiService: ApiService,
             storyPreferences: StoryPreferences
-        ): UserRepository = instance ?: synchronized(this) {
-            instance ?: UserRepository(apiService, storyPreferences)
-        }.also { instance = it }
+        ): UserRepository = UserRepository(apiService, storyPreferences)
+
     }
 
 

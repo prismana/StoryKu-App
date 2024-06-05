@@ -31,12 +31,7 @@ class StoryViewModelFactory(private val repository: StoryRepository): ViewModelP
     }
 
     companion object {
-        @Volatile
-        private var instance: StoryViewModelFactory? = null
-        @JvmStatic
-        fun getInstance(context: Context): StoryViewModelFactory =
-            instance ?: synchronized(this) {
-                instance ?: StoryViewModelFactory(Injection.provideStoryRepository(context))
-            }.also { instance = it }
+        fun getInstance(context: Context): StoryViewModelFactory = StoryViewModelFactory(Injection.provideStoryRepository(context))
+
     }
 }

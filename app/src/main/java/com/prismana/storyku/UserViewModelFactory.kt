@@ -31,12 +31,6 @@ class UserViewModelFactory(private val repository: UserRepository): ViewModelPro
     }
 
     companion object {
-        @Volatile
-        private var instance: UserViewModelFactory? = null
-        @JvmStatic
-        fun getInstance(context: Context): UserViewModelFactory =
-            instance ?: synchronized(this) {
-                instance ?: UserViewModelFactory(Injection.provideUserRepository(context))
-            }.also { instance = it }
+        fun getInstance(context: Context): UserViewModelFactory = UserViewModelFactory(Injection.provideUserRepository(context))
     }
 }
