@@ -3,7 +3,6 @@ package com.prismana.storyku.story.home
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -13,7 +12,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.prismana.storyku.R
 import com.prismana.storyku.StoryViewModelFactory
 import com.prismana.storyku.UserViewModelFactory
-import com.prismana.storyku.data.Result
 import com.prismana.storyku.databinding.ActivityHomeStoryBinding
 import com.prismana.storyku.maps.StoryMapsActivity
 import com.prismana.storyku.onboarding.OnboardingActivity
@@ -33,7 +31,7 @@ class HomeStoryActivity : AppCompatActivity() {
     }
 
     private val storyAdapter by lazy {
-        HomeStoryAdapter(this@HomeStoryActivity)
+        HomeStoryAdapter()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,12 +42,6 @@ class HomeStoryActivity : AppCompatActivity() {
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
-        }
-
-        binding.rvStory.apply {
-            setHasFixedSize(true)
-            layoutManager = LinearLayoutManager(applicationContext)
-            adapter = storyAdapter
         }
 
         binding.addStoryButton.setOnClickListener {
@@ -95,28 +87,10 @@ class HomeStoryActivity : AppCompatActivity() {
 
     // get all story from api
     private fun fetchStories() {
-        storyViewModel.getAllStories().observe(this) { result ->
-            if (result != null) {
-                when (result) {
-                    Result.Loading -> {
-                        binding.progressIndicator.visibility = View.VISIBLE
-                    }
-                    is Result.Error -> {
-                        binding.progressIndicator.visibility = View.GONE
-                        showMessage(result.error)
-                    }
-                    is Result.Success -> {
-                        binding.progressIndicator.visibility = View.GONE
-                        // trying handle fatal exception main
-                        try {
-                            storyAdapter.setStoryData(result.data.listStory)
-                        } catch (e: Exception) {
-                            showMessage(e.message.toString())
-                        }
-
-                    }
-                }
-            }
+        binding.rvStory.adapter = storyAdapter
+        binding.rvStory.layoutManager = LinearLayoutManager(this@HomeStoryActivity)
+        storyViewModel.story.observe(this@HomeStoryActivity) { result ->
+            storyAdapter.submitData(lifecycle, result)
         }
     }
 

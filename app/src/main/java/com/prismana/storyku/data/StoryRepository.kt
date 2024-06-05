@@ -2,6 +2,10 @@ package com.prismana.storyku.data
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.liveData
 import com.google.gson.Gson
 import com.prismana.storyku.data.remote.response.ErrorResponse
 import com.prismana.storyku.data.remote.response.StoryResponse
@@ -14,7 +18,7 @@ class StoryRepository(
     private val apiService: ApiService
 ) {
 
-    fun getAllStory(): LiveData<Result<StoryResponse>> = liveData {
+    /*fun getAllStory(): LiveData<Result<StoryResponse>> = liveData {
         emit(Result.Loading)
         try {
             val response = apiService.getStories()
@@ -27,6 +31,17 @@ class StoryRepository(
         } catch (e: RuntimeException) {
             emit(Result.Error(e.message.toString()))
         }
+    }*/
+
+    fun getAllStory(): LiveData<PagingData<StoryResponse.ListStoryItem>> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = 5
+            ),
+            pagingSourceFactory = {
+                StoryPagingSource(apiService)
+            }
+        ).liveData
     }
 
     // maps

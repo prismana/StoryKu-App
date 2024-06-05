@@ -1,14 +1,13 @@
 package com.prismana.storyku.story.home
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.app.ActivityOptionsCompat
+import androidx.paging.PagingDataAdapter
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.prismana.storyku.R
@@ -16,30 +15,25 @@ import com.prismana.storyku.data.remote.response.StoryResponse
 import com.prismana.storyku.databinding.StoryItemBinding
 import com.prismana.storyku.story.detail.DetailStoryActivity
 
-class HomeStoryAdapter(
-    private val context: Context,
-    private val listStory: ArrayList<StoryResponse.ListStoryItem> = arrayListOf()
-) : RecyclerView.Adapter<HomeStoryAdapter.ListViewHolder>(){
+class HomeStoryAdapter : PagingDataAdapter<StoryResponse.ListStoryItem, HomeStoryAdapter.StoryViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): ListViewHolder {
+    ): StoryViewHolder {
         val binding = StoryItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ListViewHolder(binding)
+        return StoryViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
-        val user = listStory[position]
-        holder.bind(user)
+    override fun onBindViewHolder(holder: StoryViewHolder, position: Int) {
+        val user = getItem(position)
+        if (user != null) {
+            holder.bind(user)
+        }
+
     }
 
-    fun setStoryData(storyData: List<StoryResponse.ListStoryItem>) {
-        this.listStory.clear()
-        this.listStory.addAll(storyData)
-    }
-
-    class ListViewHolder(private val binding: StoryItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    class StoryViewHolder(private val binding: StoryItemBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(storyItem: StoryResponse.ListStoryItem) {
             Glide.with(binding.root)
                 .load(storyItem.photoUrl)
@@ -57,9 +51,15 @@ class HomeStoryAdapter(
         }
     }
 
-    override fun getItemCount(): Int = listStory.size
-
     companion object {
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<StoryResponse.ListStoryItem>() {
+            override fun areItemsTheSame(oldItem: StoryResponse.ListStoryItem, newItem: StoryResponse.ListStoryItem): Boolean {
+                return oldItem == newItem
+            }
 
+            override fun areContentsTheSame(oldItem: StoryResponse.ListStoryItem, newItem: StoryResponse.ListStoryItem): Boolean {
+                return oldItem.id == newItem.id
+            }
+        }
     }
 }
