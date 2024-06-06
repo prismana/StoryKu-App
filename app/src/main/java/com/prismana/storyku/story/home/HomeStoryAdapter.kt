@@ -52,7 +52,7 @@ class HomeStoryAdapter : PagingDataAdapter<StoryResponse.ListStoryItem, HomeStor
     }
 
     companion object {
-        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<StoryResponse.ListStoryItem>() {
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<StoryResponse.ListStoryItem>() {
             override fun areItemsTheSame(oldItem: StoryResponse.ListStoryItem, newItem: StoryResponse.ListStoryItem): Boolean {
                 return oldItem == newItem
             }

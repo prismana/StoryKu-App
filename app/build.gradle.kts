@@ -43,6 +43,11 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
+    // for paging 3 testing purpose
+    testOptions {
+        unitTests.isReturnDefaultValues = true
+    }
 }
 
 dependencies {
@@ -70,4 +75,13 @@ dependencies {
 
     // paging
     implementation(libs.androidx.paging.runtime.ktx)
+
+    // Unit testing paging
+    androidTestImplementation(libs.androidx.core.testing) //InstantTaskExecutorRule
+    androidTestImplementation(libs.kotlinx.coroutines.test) //TestDispatcher
+
+    testImplementation(libs.androidx.core.testing) // InstantTaskExecutorRule
+    testImplementation(libs.kotlinx.coroutines.test) //TestDispatcher
+    testImplementation(libs.mockito.core)
+    testImplementation(libs.mockito.inline)
 }

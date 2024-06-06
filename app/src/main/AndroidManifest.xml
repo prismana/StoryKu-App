@@ -33,6 +33,7 @@
         <activity
             android:name=".maps.StoryMapsActivity"
             android:exported="false"
+            android:parentActivityName=".story.home.HomeStoryActivity"
             android:label="@string/title_activity_story_maps" />
         <activity
             android:name=".story.home.HomeStoryActivity"
@@ -45,9 +46,11 @@
         </activity>
         <activity
             android:name=".story.add.AddStoryActivity"
+            android:parentActivityName=".story.home.HomeStoryActivity"
             android:exported="false" />
         <activity
             android:name=".story.detail.DetailStoryActivity"
+            android:parentActivityName=".story.home.HomeStoryActivity"
             android:exported="false" />
         <activity
             android:name=".onboarding.OnboardingActivity"
