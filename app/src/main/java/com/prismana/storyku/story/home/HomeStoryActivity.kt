@@ -3,11 +3,13 @@ package com.prismana.storyku.story.home
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.prismana.storyku.R
 import com.prismana.storyku.StoryViewModelFactory
@@ -87,8 +89,15 @@ class HomeStoryActivity : AppCompatActivity() {
 
     // get all story from api
     private fun fetchStories() {
-        binding.rvStory.adapter = storyAdapter
+        binding.progressIndicator.visibility = View.VISIBLE
         binding.rvStory.layoutManager = LinearLayoutManager(this@HomeStoryActivity)
+        binding.rvStory.adapter = storyAdapter.withLoadStateFooter(
+            footer = LoadingStateAdapter {
+                storyAdapter.retry()
+            }
+        )
+
+        binding.progressIndicator.visibility = View.GONE
         storyViewModel.story.observe(this@HomeStoryActivity) { result ->
             storyAdapter.submitData(lifecycle, result)
         }
@@ -109,4 +118,5 @@ class HomeStoryActivity : AppCompatActivity() {
         super.onResume()
         fetchStories()
     }
+
 }

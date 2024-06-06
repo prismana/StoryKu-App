@@ -36,7 +36,7 @@ class StoryRepository(
     fun getAllStory(): LiveData<PagingData<StoryResponse.ListStoryItem>> {
         return Pager(
             config = PagingConfig(
-                pageSize = 5
+                pageSize = 4
             ),
             pagingSourceFactory = {
                 StoryPagingSource(apiService)
