@@ -58,7 +58,8 @@ class StoryRepository(
 
 
     companion object {
-        // writing this code will create new instance and update object inside
+        /** Writing this code will create new instance and update object inside.
+         Error bisa terjadi karena anda menerapkan singleton object ketika memanggil fungsi getInstance pada viewmodelfactory dan repository. **/
         fun getInstance(
             apiService: ApiService
         ): StoryRepository = StoryRepository(apiService)

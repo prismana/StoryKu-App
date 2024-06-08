@@ -10,6 +10,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.MarkerOptions
 import com.prismana.storyku.R
 import com.prismana.storyku.StoryViewModelFactory
@@ -26,7 +27,13 @@ class StoryMapsActivity : AppCompatActivity(), OnMapReadyCallback {
         StoryViewModelFactory.getInstance(this@StoryMapsActivity)
     }
 
-    private var storyLocation = emptyArray<StoryResponse.ListStoryItem>()
+    // for bound in showing all marker
+    private val boundsBuilder = LatLngBounds.Builder()
+
+    data class BoundPlace(
+        val latitude: Double,
+        val longitude: Double
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,9 +61,11 @@ class StoryMapsActivity : AppCompatActivity(), OnMapReadyCallback {
         mMap = googleMap
 
         // Add a marker in Sydney and move the camera
-        val sydney = LatLng(-34.0, 151.0)
+        /*val sydney = LatLng(-34.0, 151.0)
         mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))*/
+
+        getStoryLocation()
     }
 
     private fun getStoryLocation() {
@@ -72,24 +81,49 @@ class StoryMapsActivity : AppCompatActivity(), OnMapReadyCallback {
                     }
                     is Result.Success -> {
                         binding.progressIndicator.visibility = View.GONE
-                        //
+                        getAllMarker(result.data.listStory)
+                        showToast("Successful get mark")
                     }
                 }
             }
         }
     }
 
-    private fun allMarker(locations: List<StoryResponse.ListStoryItem>) {
+    private fun getAllMarker(locations: List<StoryResponse.ListStoryItem>) {
         locations.forEach { data ->
-            val latLng = LatLng(data.lat!!, data.lon!!)
+            val storyLatLng = LatLng(data.lat!!, data.lon!!)
             mMap.addMarker(
                 MarkerOptions()
-                    .position(latLng)
+                    .position(storyLatLng)
                     .title(data.name)
                     .snippet(data.description)
             )
 
         }
+
+        // make new data of sabang and merauke
+        val boundPlaceList = listOf(
+            BoundPlace(5.905995, 95.216975),
+            BoundPlace(-9.126903, 141.019562)
+        )
+
+        // to avoid camera map move to other location than Indonesia (because there also other country)
+        boundPlaceList.forEach{ boundPlace ->
+            val newBoundPlace = LatLng(boundPlace.latitude, boundPlace.longitude)
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(newBoundPlace))
+            boundsBuilder.include(newBoundPlace)
+        }
+
+        val bounds: LatLngBounds = boundsBuilder.build()
+        mMap.animateCamera(
+            CameraUpdateFactory.newLatLngBounds(
+                bounds,
+                resources.displayMetrics.widthPixels,
+                resources.displayMetrics.heightPixels,
+                300
+            )
+        )
+
     }
 
     private fun showToast(string: String) {
