@@ -45,7 +45,8 @@ class StoryViewModelTest {
         expectedStory.value = data
         Mockito.`when`(storyRepository.getAllStory()).thenReturn(expectedStory)
 
-        val actualStory: PagingData<StoryResponse.ListStoryItem> = storyRepository.getAllStory().getOrAwaitValue()
+        val storyViewModel = StoryViewModel(storyRepository)
+        val actualStory: PagingData<StoryResponse.ListStoryItem> = storyViewModel.story.getOrAwaitValue()
 
         val differ = AsyncPagingDataDiffer(
             diffCallback = HomeStoryAdapter.DIFF_CALLBACK,
@@ -69,7 +70,7 @@ class StoryViewModelTest {
         Mockito.`when`(storyRepository.getAllStory()).thenReturn(expectedStory)
 
         val storyViewModel = StoryViewModel(storyRepository)
-        val actualStory: PagingData<StoryResponse.ListStoryItem> = storyRepository.getAllStory().getOrAwaitValue()
+        val actualStory: PagingData<StoryResponse.ListStoryItem> = storyViewModel.story.getOrAwaitValue()
 
         val differ = AsyncPagingDataDiffer(
             diffCallback = HomeStoryAdapter.DIFF_CALLBACK,

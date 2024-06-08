@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cardView"
     android:layout_width="match_parent"
-    android:layout_height="300dp"
+    android:layout_height="275dp"
     android:layout_gravity="center"
     android:layout_marginStart="16dp"
     android:layout_marginEnd="16dp"
@@ -14,7 +14,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@color/white">
 
         <ImageView
             android:id="@+id/item_image"
@@ -44,15 +45,16 @@
 
         <TextView
             android:id="@+id/item_description"
+            style="@style/MaterialAlertDialog.Material3.Body.Text"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
+            android:ems="2"
             android:text="@string/story_description"
             android:textSize="16sp"
-            style="@style/MaterialAlertDialog.Material3.Body.Text"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

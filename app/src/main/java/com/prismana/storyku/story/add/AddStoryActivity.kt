@@ -1,5 +1,6 @@
 package com.prismana.storyku.story.add
 
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -16,6 +17,7 @@ import com.prismana.storyku.R
 import com.prismana.storyku.StoryViewModelFactory
 import com.prismana.storyku.data.Result
 import com.prismana.storyku.databinding.ActivityAddStoryBinding
+import com.prismana.storyku.story.home.HomeStoryActivity
 import com.prismana.storyku.utils.getImageUri
 import com.prismana.storyku.utils.uriToFile
 import okhttp3.MediaType.Companion.toMediaType
@@ -33,7 +35,6 @@ class AddStoryActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         binding = ActivityAddStoryBinding.inflate(layoutInflater)
         setContentView(binding.root)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -116,6 +117,10 @@ class AddStoryActivity : AppCompatActivity() {
                         is Result.Success -> {
                             binding.progressBar.visibility = View.GONE
                             result.data.message?.let { showToast(it) }
+
+                            val toHomeIntent = Intent(this@AddStoryActivity, HomeStoryActivity::class.java)
+                            toHomeIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                            startActivity(toHomeIntent)
                             finish()
                         }
                     }

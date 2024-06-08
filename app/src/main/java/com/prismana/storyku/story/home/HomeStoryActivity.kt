@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.prismana.storyku.R
 import com.prismana.storyku.StoryViewModelFactory
@@ -30,10 +31,6 @@ class HomeStoryActivity : AppCompatActivity() {
     // view model for user auth
     private val userViewModel by viewModels<UserViewModel> {
         UserViewModelFactory.getInstance(this@HomeStoryActivity)
-    }
-
-    private val storyAdapter by lazy {
-        HomeStoryAdapter()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -89,7 +86,8 @@ class HomeStoryActivity : AppCompatActivity() {
 
     // get all story from api
     private fun fetchStories() {
-        binding.progressIndicator.visibility = View.VISIBLE
+        val storyAdapter = HomeStoryAdapter()
+
         binding.rvStory.layoutManager = LinearLayoutManager(this@HomeStoryActivity)
         binding.rvStory.adapter = storyAdapter.withLoadStateFooter(
             footer = LoadingStateAdapter {
@@ -97,14 +95,18 @@ class HomeStoryActivity : AppCompatActivity() {
             }
         )
 
-        binding.progressIndicator.visibility = View.GONE
         storyViewModel.story.observe(this@HomeStoryActivity) { result ->
             storyAdapter.submitData(lifecycle, result)
+            binding.progressIndicator.visibility = View.GONE
         }
-    }
+        storyAdapter.addLoadStateListener { combinedLoadStates ->
+            if (combinedLoadStates.refresh is LoadState.Loading) {
+                binding.progressIndicator.visibility = View.VISIBLE
+            } else {
+                binding.progressIndicator.visibility = View.GONE
+            }
+        }
 
-    private fun showMessage(string: String) {
-        Toast.makeText(this@HomeStoryActivity, string, Toast.LENGTH_SHORT).show()
     }
 
     private fun logOut() {
@@ -114,9 +116,8 @@ class HomeStoryActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    override fun onResume() {
-        super.onResume()
-        fetchStories()
+    private fun showMessage(string: String) {
+        Toast.makeText(this@HomeStoryActivity, string, Toast.LENGTH_SHORT).show()
     }
 
 }
